@@ -6,8 +6,8 @@ dotenv.config({
   path: path.join(__dirname, "../../.env"),
 });
 
-const config = {
+export const config = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
+  apiKey: process.env.API_KEY,
 };
-export default config;

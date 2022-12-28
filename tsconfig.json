@@ -8,7 +8,8 @@
     "lib": [],
     "outDir": "build",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["/**/*.ts"],
   "exclude": ["node_modules"]
