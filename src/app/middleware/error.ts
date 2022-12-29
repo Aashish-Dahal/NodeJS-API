@@ -8,7 +8,7 @@ export class ErrorResponse extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-const errorHandler = (
+export const errorHandler = (
   err: ErrorResponse,
   req: Request,
   res: Response,
@@ -18,9 +18,6 @@ const errorHandler = (
   res.status(statusCode).json({
     success: false,
     name: err.name,
-
     error: err.message || "Server Error",
   });
 };
-
-export default errorHandler;
