@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { firebase } from "../../config/firebase";
+import { firebaseAdmin } from "../../config/admin";
 import { asyncHandler } from "./async";
 import { ErrorResponse } from "./error";
 export const protect = asyncHandler(
@@ -15,7 +15,7 @@ export const protect = asyncHandler(
       return next(new ErrorResponse(401, "Not authorize to access this route"));
     }
     try {
-      firebase.auth().verifyIdToken(headerToken);
+      firebaseAdmin.auth().verifyIdToken(headerToken);
       next();
     } catch (err) {
       return next(new ErrorResponse(401, "Not authorize to access this route"));
