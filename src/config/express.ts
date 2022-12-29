@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import routes from "../app/routes/index";
-import { firebase } from "./firebase";
-import errorHandler from "../app/middleware/error";
+import { firebaseAdmin } from "./admin";
+import { errorHandler } from "../app/middleware/error";
 const app = express();
 
 // parse body params and attache them to req.body
@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //Initialize firebase
-firebase.initializeFirebaseApp();
+firebaseAdmin.initializeApp();
 
 // mount api v1 routes
 app.use("/api/v1", routes);
