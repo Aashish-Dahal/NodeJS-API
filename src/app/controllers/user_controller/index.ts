@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebase } from "../../../config/firebase";
+import { firebaseAdmin } from "../../../config/admin";
+import { auth } from "../../../config/firebase";
 import { asyncHandler } from "../../middleware/async";
+import { ErrorResponse } from "../../middleware/error";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, phone, password, fullName } = req.body;
-    const user = await firebase.auth().createUser({
+    const user = await firebaseAdmin.auth().createUser({
       displayName: fullName,
       email: email,
       emailVerified: false,
@@ -25,11 +27,12 @@ export const register = asyncHandler(
 export const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    const user = await signInWithEmailAndPassword(
-      firebase.firebaseAuth,
-      email,
-      password
-    );
+    if (!email || !password) {
+      return next(
+        new ErrorResponse(400, "Please provide an email and password")
+      );
+    }
+    const user = await signInWithEmailAndPassword(auth, email, password);
     const accessToken = await user.user.getIdToken(true);
     res.status(200).json({
       success: true,
@@ -42,9 +45,12 @@ export const login = asyncHandler(
 );
 export const getUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    res.status(201).json({
+    const user = await firebaseAdmin.auth().getUserByEmail(req.body.email);
+
+    res.status(200).json({
       success: true,
-      message: "user",
+
+      user: user,
     });
   }
 );
