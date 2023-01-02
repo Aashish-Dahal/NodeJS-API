@@ -1,7 +1,8 @@
-import admin, { auth, credential } from "firebase-admin";
-const initializeApp = () =>
-  admin.initializeApp({
-    credential: credential.cert(require("../../firebase-config.json")),
-  });
-// const db = admin.firestore();
-export const firebaseAdmin = { auth, initializeApp };
+import { getAuth } from "firebase-admin/auth";
+import { initializeApp, cert } from "firebase-admin/app";
+const { getFirestore } = require("firebase-admin/firestore");
+const initializeFirebaseApp = initializeApp({
+  credential: cert(require("../../firebase-config.json")),
+});
+const auth = getAuth(initializeFirebaseApp);
+export const firebaseAdmin = { auth, initializeFirebaseApp, getFirestore };

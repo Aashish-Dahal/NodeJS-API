@@ -9,7 +9,7 @@ import { ErrorResponse } from "../../middleware/error";
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, phone, password, fullName } = req.body;
-    const user = await firebaseAdmin.auth().createUser({
+    const user = await firebaseAdmin.auth.createUser({
       displayName: fullName,
       email: email,
       emailVerified: false,
