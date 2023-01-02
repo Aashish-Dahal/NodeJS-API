@@ -3,6 +3,7 @@ import cors from "cors";
 import routes from "../app/routes/index";
 import { firebaseAdmin } from "./admin";
 import { errorHandler } from "../app/middleware/error";
+import { protect } from "../app/middleware/auth";
 const app = express();
 
 // parse body params and attache them to req.body

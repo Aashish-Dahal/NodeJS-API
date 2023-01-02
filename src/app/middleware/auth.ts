@@ -15,7 +15,11 @@ export const protect = asyncHandler(
       return next(new ErrorResponse(401, "Not authorize to access this route"));
     }
     try {
-      firebaseAdmin.auth().verifyIdToken(headerToken);
+      const decodedToken = await firebaseAdmin
+        .auth()
+        .verifyIdToken(headerToken);
+      req["currentUser"] = decodedToken;
+
       next();
     } catch (err) {
       return next(new ErrorResponse(401, "Not authorize to access this route"));

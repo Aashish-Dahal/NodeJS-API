@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { signInWithEmailAndPassword } from "firebase/auth";
+
+import firebase, { signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAdmin } from "../../../config/admin";
 import { auth } from "../../../config/firebase";
 import { asyncHandler } from "../../middleware/async";
@@ -45,11 +46,9 @@ export const login = asyncHandler(
 );
 export const getUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await firebaseAdmin.auth().getUserByEmail(req.body.email);
-
+    const user = req["currentUser"];
     res.status(200).json({
       success: true,
-
       user: user,
     });
   }
