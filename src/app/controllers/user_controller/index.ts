@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-
-import firebase, { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAdmin } from "../../../config/admin";
 import { auth } from "../../../config/firebase";
 import { asyncHandler } from "../../middleware/async";
@@ -8,12 +7,13 @@ import { ErrorResponse } from "../../middleware/error";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { email, phone, password, fullName } = req.body;
+    const { email, password, fullName, photoURL } = req.body;
+
     const user = await firebaseAdmin.auth.createUser({
       displayName: fullName,
       email: email,
       emailVerified: false,
-      phoneNumber: phone,
+      photoURL: photoURL,
       password: password,
       disabled: true,
     });
